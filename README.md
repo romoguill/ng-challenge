@@ -1,73 +1,47 @@
-# React + TypeScript + Vite
+# Full Stack Developer Challenge - Nimble Gravity
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Challenge para la posición de Full Stack Developer en Nimble Gravity.
 
-Currently, two official plugins are available:
+## Objetivos del Challenge
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+La aplicación debe:
 
-## React Compiler
+- Obtener los datos del candidato a partir de su email.
+- Consultar la lista de posiciones abiertas desde una API externa.
+- Mostrar un listado de posiciones disponibles.
+- Permitir ingresar la URL de un repositorio de GitHub por cada posición.
+- Enviar la postulación a la posición seleccionada.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Funcionalidades Principales
 
-## Expanding the ESLint configuration
+### Obtener datos del candidato
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Se realiza una llamada a la API para obtener la información del candidato utilizando su email.
+Los datos obtenidos son necesarios para poder enviar la postulación posteriormente.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Listado de posiciones abiertas
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+La aplicación consulta la API para obtener las posiciones disponibles y las muestra en pantalla.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Cada posición incluye:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Título del puesto
+- Campo de input para ingresar la URL del repositorio de GitHub
+- Botón Submit para enviar la postulación
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Envío de postulación
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Al hacer click en Submit, se envía una solicitud a la API con los datos del candidato, la posición seleccionada y la URL del repositorio.
+
+Se manejan:
+
+- Estado de carga
+- Errores de red
+- Confirmación de envío exitoso
+
+## Requisitos Técnicos
+
+- React (cualquier versión)
+- UI prolija y funcional
+- Código limpio y bien estructurado (escalable)
+- Manejo de errores adecuado
