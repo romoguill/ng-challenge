@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import getJobOpeningsQueryOptions from "../api/queries";
+import getJobOpeningsQueryOptions, { type JobOpening } from "../api/queries";
+import { JobOpeningItem } from "./job-opening-item";
 
 export function JobOpeningsList() {
   const { data, isLoading, error } = useQuery(getJobOpeningsQueryOptions);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Cargando posiciones abiertas...</div>;
   }
 
   if (error) {
@@ -14,11 +15,8 @@ export function JobOpeningsList() {
 
   return (
     <div>
-      {data?.map((job: any) => (
-        <div key={job.id}>
-          <h2>{job.title}</h2>
-          <p>{job.description}</p>
-        </div>
+      {data?.map((job: JobOpening) => (
+        <JobOpeningItem key={job.id} job={job} />
       ))}
     </div>
   );
