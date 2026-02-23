@@ -1,13 +1,69 @@
 import type { SubmitEventHandler } from "react";
 import { useState } from "react";
-import type { JobOpening } from "../api/queries";
+import { applyToJobOpening, type JobOpening } from "../api/queries";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import getCandidateQueryOptions from "../../candidate/api/queries";
 
 export function JobOpeningItem({ job }: { job: JobOpening }) {
   const [repoUrl, setRepoUrl] = useState("");
+  const { data: candidate } = useQuery(
+    getCandidateQueryOptions(import.meta.env.VITE_CANDIDATE_EMAIL),
+  );
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const {
+    mutate: apply,
+    isSuccess,
+    isError,
+  } = useMutation({
+    mutationFn: applyToJobOpening,
+  });
+
+  const isValidGitHubRepoUrl = (url: string) => {
+    // Either not github url or not parseable as URL
+    try {
+      const parsedUrl = new URL(url);
+      if (
+        parsedUrl.protocol === "https:" &&
+        (parsedUrl.hostname === "github.com" ||
+          parsedUrl.hostname === "www.github.com")
+      ) {
+        return true;
+      }
+    } catch {
+      return false;
+    }
+
+    return false;
+  };
 
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    // TODO: Final step
+    setValidationError(null);
+
+    // Validations
+    if (repoUrl.trim() === "") {
+      setValidationError("La URL de GitHub es obligatoria");
+      return;
+    }
+
+    if (!isValidGitHubRepoUrl(repoUrl)) {
+      setValidationError("La URL de GitHub no es válida");
+      return;
+    }
+
+    if (!candidate) {
+      setValidationError("Faltan datos del candidato");
+      return;
+    }
+
+    apply({
+      uuid: candidate.uuid,
+      jobId: job.id,
+      candidateId: candidate.candidateId,
+      repoUrl,
+    });
+
+    setValidationError(null);
   };
 
   return (
@@ -29,6 +85,19 @@ export function JobOpeningItem({ job }: { job: JobOpening }) {
             placeholder="https://github.com/usuario/repo"
             className="w-full border border-brand-secondary rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
           />
+          {validationError && (
+            <p className="text-sm text-red-500">{validationError}</p>
+          )}
+          {isSuccess && (
+            <p className="text-sm text-green-500">
+              Postulación enviada correctamente
+            </p>
+          )}
+          {isError && (
+            <p className="text-sm text-red-500">
+              Error al enviar la postulación
+            </p>
+          )}
         </div>
         <button
           type="submit"

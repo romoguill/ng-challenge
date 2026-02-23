@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import getJobOpeningsQueryOptions, { type JobOpening } from "../api/queries";
+import { getJobOpeningsQueryOptions, type JobOpening } from "../api/queries";
 import { JobOpeningItem } from "./job-opening-item";
 
 export function JobOpeningsList() {
