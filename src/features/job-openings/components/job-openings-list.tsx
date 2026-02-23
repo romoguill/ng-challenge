@@ -14,7 +14,7 @@ export function JobOpeningsList() {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       {data?.map((job: JobOpening) => (
         <JobOpeningItem key={job.id} job={job} />
       ))}
