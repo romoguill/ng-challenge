@@ -15,14 +15,19 @@ const fetchCandidate = async (email: string): Promise<Candidate> => {
   const url = new URL(CANDIDATE_API_PATH, import.meta.env.VITE_NG_API_URL);
   url.searchParams.set("email", email);
 
-  const response = await fetch(url.toString());
-  if (!response.ok) {
+  try {
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      throw new Error(
+        `Tus datos no han podido ser obtenidos, intenta nuevamente: ${response.statusText}`,
+      );
+    }
+
+    const data = await response.json();
+    return data;
+  } catch {
     throw new Error("Error al obtener datos del candidato");
   }
-
-  const data = await response.json();
-
-  return data;
 };
 
 const getCandidateQueryOptions = (email: string) =>

@@ -10,15 +10,19 @@ export interface JobOpening {
 const fetchJobOpenings = async (): Promise<JobOpening[]> => {
   const url = new URL(JOB_OPENINGS_API_PATH, import.meta.env.VITE_NG_API_URL);
 
-  const response = await fetch(url.toString());
+  try {
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      throw new Error(
+        `Error al obtener las posiciones abiertas: ${response.statusText}`,
+      );
+    }
 
-  if (!response.ok) {
+    const data = await response.json();
+    return data;
+  } catch {
     throw new Error("Error al obtener las posiciones abiertas");
   }
-
-  const data = await response.json();
-
-  return data;
 };
 
 const getJobOpeningsQueryOptions = queryOptions({
