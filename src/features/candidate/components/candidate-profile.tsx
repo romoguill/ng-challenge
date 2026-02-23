@@ -22,14 +22,19 @@ export function CandidateProfile() {
   }
 
   return (
-    <div>
-      <h1>Candidate Profile</h1>
-      <p>Nombre: {data.firstName}</p>
-      <p>Apellido: {data.lastName}</p>
-      <p>Email: {data.email}</p>
-      <p>ID del candidato: {data.candidateId}</p>
-      <p>ID de la aplicación: {data.applicationId}</p>
-      <p>UUID: {data.uuid}</p>
-    </div>
+    <article className="bg-brand-secondary rounded-xl border border-brand-secondary shadow-sm p-6 flex flex-col gap-4 mb-8">
+      <h2 className="text-lg font-semibold text-brand-primary">
+        Tus datos personales
+      </h2>
+      <p className="text-sm text-brand-secondary-foreground">
+        Nombre: <span className="font-semibold">{data.firstName}</span>
+      </p>
+      <p className="text-sm text-brand-secondary-foreground">
+        Apellido: <span className="font-semibold">{data.lastName}</span>
+      </p>
+      <p className="text-sm text-brand-secondary-foreground">
+        Email: <span className="font-semibold">{data.email}</span>
+      </p>
+    </article>
   );
 }
