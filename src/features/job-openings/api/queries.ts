@@ -39,6 +39,7 @@ interface ApplyToJobOpeningDTO {
   jobId: string;
   candidateId: string;
   repoUrl: string;
+  applicationId: string; // Not in challenge requirements, got it from bad request response
 }
 
 export const applyToJobOpening = async (data: ApplyToJobOpeningDTO) => {

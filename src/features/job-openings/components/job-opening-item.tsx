@@ -61,6 +61,7 @@ export function JobOpeningItem({ job }: { job: JobOpening }) {
       jobId: job.id,
       candidateId: candidate.candidateId,
       repoUrl,
+      applicationId: candidate.applicationId,
     });
 
     setValidationError(null);
